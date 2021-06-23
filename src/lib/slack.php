@@ -20,6 +20,9 @@ function send_slack($channel, $texts) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer {$ENGINE_CONFIG['SLACK']['TOKEN']}"]);
     $res = json_decode(curl_exec($ch), true);
 
+    // 최대한 모델과 라이브러리는 분리하려 했지만 이건 모델의 도움을 받아야겠음
+    SlackLog::push($channel, $blocks);
+
     return $res['ok'] === 1;
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 21-06-23 21:27
+-- 생성 시간: 21-06-23 22:36
 -- 서버 버전: 5.7.34-0ubuntu0.18.04.1
 -- PHP 버전: 7.2.24-0ubuntu0.18.04.7
 
@@ -45,6 +45,19 @@ CREATE TABLE `member_point` (
   `mb_id` int(21) NOT NULL,
   `te_id` int(21) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `slack_log`
+--
+
+CREATE TABLE `slack_log` (
+  `sl_id` int(21) NOT NULL,
+  `sl_channel` varchar(255) NOT NULL,
+  `sl_blocks` json NOT NULL,
+  `sl_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -129,6 +142,12 @@ ALTER TABLE `member_point`
   ADD KEY `te_id` (`te_id`);
 
 --
+-- 테이블의 인덱스 `slack_log`
+--
+ALTER TABLE `slack_log`
+  ADD PRIMARY KEY (`sl_id`);
+
+--
 -- 테이블의 인덱스 `test`
 --
 ALTER TABLE `test`
@@ -173,7 +192,12 @@ ALTER TABLE `member`
 -- 테이블의 AUTO_INCREMENT `member_point`
 --
 ALTER TABLE `member_point`
-  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
+-- 테이블의 AUTO_INCREMENT `slack_log`
+--
+ALTER TABLE `slack_log`
+  MODIFY `sl_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- 테이블의 AUTO_INCREMENT `test`
 --
@@ -193,7 +217,7 @@ ALTER TABLE `test_group`
 -- 테이블의 AUTO_INCREMENT `test_result`
 --
 ALTER TABLE `test_result`
-  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 --
 -- 덤프된 테이블의 제약사항
 --
