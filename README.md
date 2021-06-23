@@ -20,7 +20,7 @@ $ENGINE_CONFIG['SLACK'] = [
     'CHANNEL' => '',
 ];
 
-$ENGINE_CONFOG['DEV_REPOSITORY'] = [
+$ENGINE_CONFIG['DEV_REPOSITORY'] = [
     ""
 ];
 ```

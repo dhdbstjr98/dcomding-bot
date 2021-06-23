@@ -13,7 +13,7 @@ if(!$payload || !is_array($payload)) {
     response(false, ["message" => "비정상적인 payload"]);
 }
 
-$is_dev = in_array($payload['repository']['full_name'], $ENGINE_CONFOG['DEV_REPOSITORY']);
+$is_dev = in_array($payload['repository']['full_name'], $ENGINE_CONFIG['DEV_REPOSITORY']);
 $userid = $payload['pusher']['name'];
 $member = Member::get_from_github_id($userid);
 if(!$member) {
