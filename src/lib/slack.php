@@ -39,8 +39,15 @@ function broadcast_success_slack($member_name, $slack_id, $test_name, $point, $r
 
 function format_rank_slack($rank) {
     $rank_text = '*랭킹 안내*' . PHP_EOL;
+    $last_point = -1;
+    $rank_num = 0;
     for($i = 0; $i < count($rank); $i++) {
-        $rank_text .= ($i + 1) . ". {$rank[$i]['name']} ({$rank[$i]['sum_point']}p)" . PHP_EOL;
+        if($rank[$i]['sum_point'] != $last_point) {
+            $rank_num = $i + 1;
+            $last_point = $rank[$i]['sum_point'];
+        }
+
+        $rank_text .= ($rank_num) . ". {$rank[$i]['name']} ({$rank[$i]['sum_point']}p)" . PHP_EOL;
     }
     return $rank_text;
 }
