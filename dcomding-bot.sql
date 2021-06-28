@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 21-06-23 22:36
+-- 생성 시간: 21-06-29 01:08
 -- 서버 버전: 5.7.34-0ubuntu0.18.04.1
 -- PHP 버전: 7.2.24-0ubuntu0.18.04.7
 
@@ -88,7 +88,7 @@ CREATE TABLE `test_case` (
   `tc_seq` tinyint(1) NOT NULL,
   `tc_name` varchar(255) DEFAULT NULL,
   `tc_input` mediumtext NOT NULL,
-  `tc_output` text NOT NULL
+  `tc_output` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -117,7 +117,7 @@ CREATE TABLE `test_result` (
   `mb_id` int(21) NOT NULL,
   `tr_language` enum('cpp','c','js','py') NOT NULL,
   `tr_code` text NOT NULL,
-  `tr_result` enum('success','failed','compile_error','runtime_error','timeout') NOT NULL,
+  `tr_result` enum('success','failed','compile_error','runtime_error','timeout','archiving') NOT NULL,
   `tc_id` int(21) DEFAULT NULL,
   `tr_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -187,37 +187,37 @@ ALTER TABLE `test_result`
 -- 테이블의 AUTO_INCREMENT `member`
 --
 ALTER TABLE `member`
-  MODIFY `mb_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `mb_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- 테이블의 AUTO_INCREMENT `member_point`
 --
 ALTER TABLE `member_point`
-  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
 -- 테이블의 AUTO_INCREMENT `slack_log`
 --
 ALTER TABLE `slack_log`
-  MODIFY `sl_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sl_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 --
 -- 테이블의 AUTO_INCREMENT `test`
 --
 ALTER TABLE `test`
-  MODIFY `te_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `te_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- 테이블의 AUTO_INCREMENT `test_case`
 --
 ALTER TABLE `test_case`
-  MODIFY `tc_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `tc_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
 --
 -- 테이블의 AUTO_INCREMENT `test_group`
 --
 ALTER TABLE `test_group`
-  MODIFY `tg_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tg_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- 테이블의 AUTO_INCREMENT `test_result`
 --
 ALTER TABLE `test_result`
-  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 --
 -- 덤프된 테이블의 제약사항
 --

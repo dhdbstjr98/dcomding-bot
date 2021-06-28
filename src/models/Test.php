@@ -95,4 +95,5 @@ class TestResult {
     public const COMPILE_ERROR = "compile_error";
     public const RUNTIME_ERROR = "runtime_error";
     public const TIMEOUT = "timeout";
+    public const ARCHIVING = "archiving";
 }
