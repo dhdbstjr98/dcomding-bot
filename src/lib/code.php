@@ -44,7 +44,7 @@ function compile_code($hash, $github_id, $ext) {
     return $return === 0;
 }
 
-function run_code($hash, $github_id, $ext, $input, &$err_no) {
+function run_code($hash, $github_id, $ext, $input, &$err_no, &$time) {
     global $ENGINE_PATH;
 
     $working_path = "{$ENGINE_PATH}/../working/{$hash}";
@@ -68,7 +68,9 @@ function run_code($hash, $github_id, $ext, $input, &$err_no) {
         return null;
     }
 
+    $start_time = get_microtime();
     exec("timeout 3 {$command} < {$working_path}/input.txt 1>&1 2>&2", $rows, $return);
+    $time = (int)((get_microtime() - $start_time) * 1000);
 
     if($return > 0) {
         $err_no = $return;
@@ -93,4 +95,9 @@ function remove_code($hash) {
     global $ENGINE_PATH;
 
     exec("rm -rf {$ENGINE_PATH}/../working/{$hash}");
+}
+
+function get_microtime() {
+	$time = explode(' ', microtime());
+	return (float)$time[0] + (float)$time[1];
 }

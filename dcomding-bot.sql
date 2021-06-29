@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 21-06-29 01:08
+-- 생성 시간: 21-06-30 04:14
 -- 서버 버전: 5.7.34-0ubuntu0.18.04.1
 -- PHP 버전: 7.2.24-0ubuntu0.18.04.7
 
@@ -118,6 +118,7 @@ CREATE TABLE `test_result` (
   `tr_language` enum('cpp','c','js','py') NOT NULL,
   `tr_code` text NOT NULL,
   `tr_result` enum('success','failed','compile_error','runtime_error','timeout','archiving') NOT NULL,
+  `tr_time` int(21) DEFAULT NULL,
   `tc_id` int(21) DEFAULT NULL,
   `tr_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -192,12 +193,12 @@ ALTER TABLE `member`
 -- 테이블의 AUTO_INCREMENT `member_point`
 --
 ALTER TABLE `member_point`
-  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `mp_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 --
 -- 테이블의 AUTO_INCREMENT `slack_log`
 --
 ALTER TABLE `slack_log`
-  MODIFY `sl_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `sl_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 --
 -- 테이블의 AUTO_INCREMENT `test`
 --
@@ -217,7 +218,7 @@ ALTER TABLE `test_group`
 -- 테이블의 AUTO_INCREMENT `test_result`
 --
 ALTER TABLE `test_result`
-  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `tr_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 --
 -- 덤프된 테이블의 제약사항
 --

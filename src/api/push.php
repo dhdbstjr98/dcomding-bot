@@ -3,6 +3,18 @@ if(!defined("_ENGINE_INCLUDED_") || !_ENGINE_INCLUDED_) {
     exit;
 }
 
+function handle_fatal_error() {
+    global $member;
+    $error = error_get_last();
+    if($error['type'] == 1) {
+        if(!empty($member)) {
+            die_with_slack($member, "채점 중 에러가 발생했습니다.\n\n무한루프 또는 메모리 초과일 경우도 여기에 해당합니다.");
+        }
+    }
+}
+
+register_shutdown_function("handle_fatal_error");
+
 if(!isset($_POST['payload'])) {
     response(false, ["message" => "payload를 입력해주세요."]);
 }
@@ -64,26 +76,32 @@ git_pull($member->github_id, $is_dev);
 $hash = isolate_code($test->dirname, $member->github_id, $ext, $is_dev);
 $result = TestResult::SUCCESS;
 $result_test_case = null;
+$max_time = 0;
 
 if(compile_code($hash, $member->github_id, $ext)) {
     $test_cases = TestCase::get_from_test($test);
     foreach($test_cases as $test_case) {
-        $output = run_code($hash, $member->github_id, $ext, $test_case->input, $err_no);
+        $output = run_code($hash, $member->github_id, $ext, $test_case->input, $err_no, $time);
+
         if($output === null) {
             if($err_no === 124)
                 $result = TestResult::TIMEOUT;
             else
                 $result = TestResult::RUNTIME_ERROR;
             $result_test_case = $test_case;
+            $max_time = $time;
             break;
         }
 
         if(str_replace("\r\n", "\n", $output) != str_replace("\r\n", "\n", $test_case->output)) {
             $result = TestResult::FAILED;
             $result_test_case = $test_case;
-            var_dump($output);
+            $max_time = $time;
             break;
         }
+
+        if($time > $max_time)
+            $max_time = $time;
     }
 } else {
     $result = TestResult::COMPILE_ERROR;
@@ -92,7 +110,7 @@ if(compile_code($hash, $member->github_id, $ext)) {
 $code = get_code($hash, $member->github_id, $ext);
 remove_code($hash);
 
-$result_id = $test->save_result($member, $ext, $code, $result, $result_test_case, $is_first);
+$result_id = $test->save_result($member, $ext, $code, $result, $max_time, $result_test_case, $is_first);
 
 if(!$result_id) {
     die_with_slack($member, "채점 결과 저장에 오류가 발생하였습니다.");
@@ -102,6 +120,6 @@ if($is_first && !$test->is_hidden() && !$member->is_hidden) {
     broadcast_success_slack($member->name, $member->slack_id, $test->name, $test->point, Member::get_rank_with_name());
 }
 
-send_test_result_slack($member->slack_id, $test->name, $result, $result_id, $result_test_case === null ? null : $result_test_case->name);
+send_test_result_slack($member->slack_id, $test->name, $result, $max_time, $result_id, $result_test_case === null ? null : $result_test_case->name);
 
 response(true, ["result_id" => $result_id]);

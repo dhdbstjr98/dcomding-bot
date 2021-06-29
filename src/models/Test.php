@@ -52,7 +52,7 @@ class Test {
         return date("Y-m-d H:i:s") < $this->group_start;
     }
 
-    public function save_result($member, $language, $code, $result, $test_case = null, &$is_first) {
+    public function save_result($member, $language, $code, $result, $time, $test_case = null, &$is_first) {
         if(!$member) {
             return null;
         }
@@ -63,8 +63,9 @@ class Test {
                         tr_language = ?,
                         tr_code = ?,
                         tr_result = ?,
+                        tr_time = ?,
                         tc_id = ?
-        ", "iisssi", $this->id, $member->id, $language, $code, $result, $test_case === null ? null : $test_case->id);
+        ", "iisssii", $this->id, $member->id, $language, $code, $result, $time, $test_case === null ? null : $test_case->id);
 
         $result_id = DB::get_inserted_id();
 

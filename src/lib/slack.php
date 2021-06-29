@@ -52,9 +52,9 @@ function format_rank_slack($rank) {
     return $rank_text;
 }
 
-function send_test_result_slack($channel, $test_name, $result, $result_id, $test_case = null) {
+function send_test_result_slack($channel, $test_name, $result, $time, $result_id, $test_case = null) {
     $texts = [];
-    $texts[] = "*채점 결과* (#{$result_id})" . PHP_EOL . "`{$test_name}` {$result}";
+    $texts[] = "*채점 결과* (#{$result_id})" . PHP_EOL . "`{$test_name}` {$result} - {$time}ms";
     if($test_case !== null) {
         $texts[] = "관련 테스트 케이스 : {$test_case}";
     }
