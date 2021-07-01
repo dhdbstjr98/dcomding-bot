@@ -48,7 +48,7 @@ function run_code($hash, $github_id, $ext, $input, &$err_no, &$time) {
     global $ENGINE_PATH;
 
     $working_path = "{$ENGINE_PATH}/../working/{$hash}";
-    file_put_contents($working_path . "/input.txt", $input);
+    file_put_contents($working_path . "/input.txt", str_replace("\r", "", $input));
 
     $command = null;
     switch($ext) {
