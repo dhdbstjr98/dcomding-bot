@@ -80,4 +80,33 @@ class Member {
                     ORDER BY sum_point DESC
         ");
     }
+
+    static public function get_weekrank_with_name() {
+        return DB::fetch_all("SELECT
+                        mb_name AS name,
+                        SUM(point) AS sum_point
+                    FROM (
+                        SELECT
+                            mb_id,
+                            mb_name,
+                            SUM(te_point) AS point
+                        FROM member_point
+                        INNER JOIN member USING (mb_id)
+                        INNER JOIN test USING (te_id)
+						INNER JOIN test_group USING (tg_id)
+                        WHERE mb_is_hidden = 0 and tg_start <= now() and tg_end > now()
+                        GROUP BY mb_id
+                        UNION (
+                            SELECT
+                                mb_id,
+                                mb_name,
+                                0 AS point
+                            FROM member
+                            WHERE mb_is_hidden = 0
+                        )
+                    ) t
+                    GROUP BY mb_name
+                    ORDER BY sum_point DESC
+        ");
+    }
 }
