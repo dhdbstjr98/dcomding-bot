@@ -32,7 +32,7 @@ function compile_code($hash, $github_id, $ext) {
             exec("gcc {$working_path}/{$github_id}.c -o {$working_path}/{$github_id} 1>&1 2>&2", $rows, $return);
             break;
         case "cpp":
-            exec("gcc {$working_path}/{$github_id}.cpp -o {$working_path}/{$github_id} -lstdc++  1>&1 2>&2", $rows, $return);
+            exec("gcc {$working_path}/{$github_id}.cpp -o {$working_path}/{$github_id} -lstdc++ -ldl -lm 1>&1 2>&2", $rows, $return);
             break;
         case "py":
         case "js":
