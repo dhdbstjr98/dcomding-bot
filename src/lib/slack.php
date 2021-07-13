@@ -53,6 +53,29 @@ function format_rank_slack($rank) {
     return $rank_text;
 }
 
+function format_weekstatus_slack($week_status) {
+    $status_text = '*주간 상태 안내*' . PHP_EOL;
+    $counts = [];
+    foreach($week_status as $name => $results) {
+        $status_text .= "- {$name} : ";
+        foreach($results as $seq => $result) {
+            if($result) {
+                if(!isset($counts[$seq]))
+                    $counts[$seq] = 1;
+                else
+                    $counts[$seq]++;
+            }
+            $status_text .= $result ? "● " : "○ ";
+        }
+        $status_text .= PHP_EOL;
+    }
+    $status_text .= PHP_EOL . "*정답자*" . PHP_EOL;
+    foreach($counts as $seq => $count) {
+        $status_text .= "{$seq}번 : {$count}명" . PHP_EOL;
+    }
+    return $status_text;
+}
+
 function send_test_result_slack($channel, $test_name, $result, $time, $result_id, $test_case = null) {
     $texts = [];
     $texts[] = "*채점 결과* (#{$result_id})" . PHP_EOL . "`{$test_name}` {$result} - {$time}ms";

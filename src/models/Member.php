@@ -93,7 +93,7 @@ class Member {
                         FROM member_point
                         INNER JOIN member USING (mb_id)
                         INNER JOIN test USING (te_id)
-						INNER JOIN test_group USING (tg_id)
+                        INNER JOIN test_group USING (tg_id)
                         WHERE mb_is_hidden = 0 and tg_start <= now() and tg_end > now()
                         GROUP BY mb_id
                         UNION (
@@ -108,5 +108,46 @@ class Member {
                     GROUP BY mb_name
                     ORDER BY sum_point DESC
         ");
+    }
+
+    static public function get_weekstatus_with_name() {
+        $rows = DB::fetch_all("SELECT
+                        mb_name,
+                        te_seq,
+                        sum(success) AS success
+                    FROM (
+                        SELECT DISTINCT
+                            mb_name,
+                            te_seq,
+                            1 AS success
+                        FROM test_result
+                        INNER JOIN test USING(te_id)
+                        INNER JOIN test_group USING(tg_id)
+                        INNER JOIN member USING(mb_id)
+                        WHERE
+                            mb_is_hidden = 0
+                            AND tg_start <= now() and tg_end > now()
+                            AND tr_result = 'success'
+                        UNION (SELECT
+                            mb_name,
+                            te_seq,
+                            0 AS success
+                        FROM test, test_group, member
+                        WHERE
+                            test.tg_id = test_group.tg_id
+                            AND mb_is_hidden = 0
+                            AND tg_start <= now() and tg_end > now()
+                        )
+                    ) t
+                    GROUP BY mb_name, te_seq
+                    ORDER BY mb_name, te_seq
+        ");
+
+        $ret = [];
+        foreach($rows as $row) {
+            $ret[$row['mb_name']][$row['te_seq']] = $row['success'] > 0;
+        }
+
+        return $ret;
     }
 }
