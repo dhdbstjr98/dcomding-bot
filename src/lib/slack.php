@@ -49,7 +49,7 @@ function format_rank_slack($rank) {
 
         $rank_text .= ($rank_num) . ". {$rank[$i]['name']} ({$rank[$i]['sum_point']}p)" . PHP_EOL;
     }
-	$rank_text .= PHP_EOL . "전체 랭킹 조회 : `/rank`, 주간 랭킹 조회 : `/weekrank`" . PHP_EOL;
+	$rank_text .= PHP_EOL . "전체 랭킹 조회 : `/rank`, 주간 랭킹 조회 : `/weekrank`, 주간 상태 조회 : `/weekstatus`" . PHP_EOL;
     return $rank_text;
 }
 
