@@ -70,6 +70,7 @@ function format_weekstatus_slack($week_status) {
         $status_text .= PHP_EOL;
     }
     $status_text .= PHP_EOL . "*정답자*" . PHP_EOL;
+    ksort($counts);
     foreach($counts as $seq => $count) {
         $status_text .= "{$seq}번 : {$count}명" . PHP_EOL;
     }
