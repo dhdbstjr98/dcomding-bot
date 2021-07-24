@@ -26,11 +26,11 @@ function send_slack($channel, $texts) {
     return $res['ok'] === 1;
 }
 
-function broadcast_success_slack($member_name, $slack_id, $test_name, $point, $rank) {
+function broadcast_success_slack($member_name, $slack_id, $test_name, $ext, $point, $rank) {
     global $ENGINE_CONFIG;
 
     $texts = [];
-    $texts[] = "*정답!*" . PHP_EOL . "{$member_name}(<@{$slack_id}>) 님이 `{$test_name}` 문제를 맞추셨습니다!! ({$point}p 획득)";
+    $texts[] = "*정답!*" . PHP_EOL . "{$member_name}(<@{$slack_id}>) 님이 `{$test_name}` 문제를 맞추셨습니다!! ({$point}p 획득)" . PHP_EOL . "사용 언어 : {$ext}";
 
     $texts[] = format_rank_slack($rank);
 
@@ -77,9 +77,9 @@ function format_weekstatus_slack($week_status) {
     return $status_text;
 }
 
-function send_test_result_slack($channel, $test_name, $result, $time, $result_id, $test_case = null) {
+function send_test_result_slack($channel, $test_name, $ext, $result, $time, $result_id, $test_case = null) {
     $texts = [];
-    $texts[] = "*채점 결과* (#{$result_id})" . PHP_EOL . "`{$test_name}` {$result} - {$time}ms";
+    $texts[] = "*채점 결과* (#{$result_id})" . PHP_EOL . "`{$test_name}` {$result} - {$time}ms" . PHP_EOL . "사용 언어 : {$ext}";
     if($test_case !== null) {
         $texts[] = "관련 테스트 케이스 : {$test_case}";
     }

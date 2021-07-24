@@ -117,9 +117,9 @@ if(!$result_id) {
 }
 
 if($is_first && !$test->is_hidden() && !$member->is_hidden) {
-    broadcast_success_slack($member->name, $member->slack_id, $test->name, $test->point, Member::get_rank_with_name());
+    broadcast_success_slack($member->name, $member->slack_id, $test->name, $ext, $test->point, Member::get_rank_with_name());
 }
 
-send_test_result_slack($member->slack_id, $test->name, $result, $max_time, $result_id, $result_test_case === null ? null : $result_test_case->name);
+send_test_result_slack($member->slack_id, $test->name, $ext, $result, $max_time, $result_id, $result_test_case === null ? null : $result_test_case->name);
 
 response(true, ["result_id" => $result_id]);
